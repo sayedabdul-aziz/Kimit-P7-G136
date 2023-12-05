@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int weight = 60;
   int height = 160;
-  double res = 0.0;
+  int age = 19;
   bool isMale = true;
 
   String getClass(val) {
@@ -32,13 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CounterScreen(),
-              ));
-            },
-            icon: const Icon(Icons.add_circle_outline_sharp)),
         elevation: 0.0,
         centerTitle: true,
         backgroundColor: AppColors.scaffoldBg,
@@ -295,13 +288,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Height',
+                              'Age',
                               style: TextStyle(
                                   color: AppColors.white, fontSize: 20),
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              '$height CM',
+                              '$age',
                               style: TextStyle(
                                   color: AppColors.white,
                                   fontSize: 25,
@@ -316,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      height--;
+                                      age--;
                                     });
                                   },
                                   child: const Icon(Icons.remove),
@@ -326,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
-                                      height++;
+                                      age++;
                                     });
                                   },
                                   child: const Icon(Icons.add),
@@ -354,9 +347,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       //BMI = mass (kg) /height(2) (m)
 
                       double result = weight / (height * height * .0001);
-                      setState(() {
-                        res = result;
-                      });
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CounterScreen(result: result),
+                      ));
                     },
                     child: const Text('Calculate')),
               ),

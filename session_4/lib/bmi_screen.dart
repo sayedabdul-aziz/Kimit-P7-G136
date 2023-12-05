@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:session_4/colors.dart';
-import 'package:session_4/counter_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,17 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CounterScreen(),
-              ));
-            },
-            icon: const Icon(Icons.add_circle_outline_sharp)),
-        elevation: 0.0,
+        // elevation: 0.0,
         centerTitle: true,
         backgroundColor: AppColors.scaffoldBg,
-        title: const Text('BMI Calculator App'),
+        title: Text(
+          'BMI Calculator App',
+          style: TextStyle(color: AppColors.white),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

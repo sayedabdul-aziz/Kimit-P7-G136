@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CounterScreen extends StatefulWidget {
-  const CounterScreen({super.key});
+  const CounterScreen({super.key, required this.result});
+  final double result;
 
   @override
   State<CounterScreen> createState() => _CounterScreenState();
@@ -25,6 +26,11 @@ class _CounterScreenState extends State<CounterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              widget.result.toStringAsFixed(2),
+              style: const TextStyle(fontSize: 22),
+            ),
+
             const Text(
               'Counter is :',
               style: TextStyle(fontSize: 22),
