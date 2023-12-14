@@ -4,10 +4,15 @@ import 'package:taskati_app_9_12/core/utils/styles.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {super.key, required this.text, required this.onTap, this.width = 100});
+      {super.key,
+      required this.text,
+      required this.onTap,
+      this.width = 100,
+      this.style});
   final String text;
   final Function()? onTap;
   final double width;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +20,7 @@ class CustomButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: 50,
         width: width,
         decoration: BoxDecoration(
@@ -22,7 +28,7 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(15)),
         child: Text(
           text,
-          style: getBodyStyle(color: AppColors.whiteColor),
+          style: style ?? getBodyStyle(color: AppColors.whiteColor),
         ),
       ),
     );

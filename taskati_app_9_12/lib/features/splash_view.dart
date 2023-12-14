@@ -18,7 +18,6 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
 
     // delay by 4 sec and navigate to upload
-
     Future.delayed(const Duration(seconds: 4), () {
       // navigation
       Navigator.of(context).pushReplacement(MaterialPageRoute(
