@@ -4,9 +4,9 @@ import 'package:chat_app_ui/user.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({super.key});
+  const HomeView({super.key});
 
-  List<UserModel> users = [
+  static List<UserModel> users = [
     UserModel(
         image: 'assets/logo.png',
         name: 'Ahmed Rady',
