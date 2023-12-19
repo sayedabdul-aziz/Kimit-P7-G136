@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:taskati_app_9_12/core/functions/functions.dart';
+import 'package:taskati_app_9_12/core/storage/task_model.dart';
 import 'package:taskati_app_9_12/core/utils/app_colors.dart';
 import 'package:taskati_app_9_12/core/utils/styles.dart';
 import 'package:taskati_app_9_12/core/widgets/custom_button.dart';
@@ -18,11 +20,20 @@ class AddTaskView extends StatefulWidget {
 class _AddTaskViewState extends State<AddTaskView> {
   var titleCon = TextEditingController();
   var noteCon = TextEditingController();
+  var formKey = GlobalKey<FormState>();
   String date = DateFormat.yMd().format(DateTime.now());
   String startTime = DateFormat('hh:mm a').format(DateTime.now());
   String endTime = DateFormat('hh:mm a')
       .format(DateTime.now().add(const Duration(minutes: 15)));
   int colorIndex = 0;
+
+  late Box<Task> box;
+  @override
+  void initState() {
+    super.initState();
+    box = Hive.box<Task>('task');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,144 +52,165 @@ class _AddTaskViewState extends State<AddTaskView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTextForm(
-              con: titleCon,
-              name: 'Title',
-              lines: 1,
-            ),
-            const Gap(10),
-            CustomTextForm(
-              con: noteCon,
-              name: 'Note',
-              lines: 4,
-            ),
-            const Gap(10),
-            Text(
-              'Date',
-              style: getTitleStyle(fontSize: 16),
-            ),
-            const Gap(5),
-            TextFormField(
-              readOnly: true,
-              decoration: InputDecoration(
-                  hintText: date,
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        showDateDialog();
-                      },
-                      icon: Icon(
-                        Icons.calendar_month_outlined,
-                        color: AppColors.primaryColor,
-                      ))),
-            ),
-            const Gap(10),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Start Time',
-                    style: getTitleStyle(fontSize: 16),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextForm(
+                con: titleCon,
+                name: 'Title',
+                lines: 1,
+              ),
+              const Gap(10),
+              CustomTextForm(
+                con: noteCon,
+                name: 'Note',
+                lines: 4,
+              ),
+              const Gap(10),
+              Text(
+                'Date',
+                style: getTitleStyle(fontSize: 16),
+              ),
+              const Gap(5),
+              TextFormField(
+                readOnly: true,
+                decoration: InputDecoration(
+                    hintText: date,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          showDateDialog();
+                        },
+                        icon: Icon(
+                          Icons.calendar_month_outlined,
+                          color: AppColors.primaryColor,
+                        ))),
+              ),
+              const Gap(10),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Start Time',
+                      style: getTitleStyle(fontSize: 16),
+                    ),
                   ),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: Text(
-                    'End Time',
-                    style: getTitleStyle(fontSize: 16),
+                  const Gap(10),
+                  Expanded(
+                    child: Text(
+                      'End Time',
+                      style: getTitleStyle(fontSize: 16),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const Gap(5),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        hintText: startTime,
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              shawStartTimeDialog();
-                            },
-                            icon: Icon(
-                              Icons.watch_later_outlined,
-                              color: AppColors.primaryColor,
-                            ))),
+                ],
+              ),
+              const Gap(5),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                          hintText: startTime,
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                shawStartTimeDialog();
+                              },
+                              icon: Icon(
+                                Icons.watch_later_outlined,
+                                color: AppColors.primaryColor,
+                              ))),
+                    ),
                   ),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        hintText: endTime,
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              shawEndTimeDialog();
-                            },
-                            icon: Icon(
-                              Icons.watch_later_outlined,
-                              color: AppColors.primaryColor,
-                            ))),
+                  const Gap(10),
+                  Expanded(
+                    child: TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                          hintText: endTime,
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                shawEndTimeDialog();
+                              },
+                              icon: Icon(
+                                Icons.watch_later_outlined,
+                                color: AppColors.primaryColor,
+                              ))),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const Gap(20),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      colorIndex = 0;
-                    });
-                  },
-                  child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: AppColors.primaryColor,
-                      child: ColorItem(
-                          isChecked: ((colorIndex == 0) ? true : false),
-                          color: AppColors.primaryColor)),
-                ),
-                const Gap(5),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      colorIndex = 1;
-                    });
-                  },
-                  child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: AppColors.orangeColor,
-                      child: ColorItem(
-                          isChecked: ((colorIndex == 1) ? true : false),
-                          color: AppColors.orangeColor)),
-                ),
-                const Gap(5),
-                GestureDetector(
+                ],
+              ),
+              const Gap(20),
+              Row(
+                children: [
+                  GestureDetector(
                     onTap: () {
                       setState(() {
-                        colorIndex = 2;
+                        colorIndex = 0;
                       });
                     },
-                    child: ColorItem(
-                        isChecked: ((colorIndex == 2) ? true : false),
-                        color: AppColors.redColor)),
-                const Spacer(),
-                CustomButton(
-                    style: getSmallStyle(color: AppColors.whiteColor),
-                    width: 120,
-                    text: 'Create Task',
+                    child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: AppColors.primaryColor,
+                        child: ColorItem(
+                            isChecked: ((colorIndex == 0) ? true : false),
+                            color: AppColors.primaryColor)),
+                  ),
+                  const Gap(5),
+                  GestureDetector(
                     onTap: () {
-                      pushWithReplacment(context, const HomeView());
-                    }),
-              ],
-            ),
-          ],
+                      setState(() {
+                        colorIndex = 1;
+                      });
+                    },
+                    child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: AppColors.orangeColor,
+                        child: ColorItem(
+                            isChecked: ((colorIndex == 1) ? true : false),
+                            color: AppColors.orangeColor)),
+                  ),
+                  const Gap(5),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          colorIndex = 2;
+                        });
+                      },
+                      child: ColorItem(
+                          isChecked: ((colorIndex == 2) ? true : false),
+                          color: AppColors.redColor)),
+                  const Spacer(),
+                  CustomButton(
+                      style: getSmallStyle(color: AppColors.whiteColor),
+                      width: 120,
+                      text: 'Create Task',
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          String id =
+                              titleCon.text + DateTime.now().toIso8601String();
+                          await box
+                              .put(
+                                  id,
+                                  Task(
+                                      id: id,
+                                      title: titleCon.text,
+                                      note: noteCon.text,
+                                      date: date,
+                                      startTime: startTime,
+                                      endTime: endTime,
+                                      color: colorIndex,
+                                      isComplete: false))
+                              .then((value) {
+                            pushWithReplacment(context, const HomeView());
+                          });
+                        }
+                      }),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

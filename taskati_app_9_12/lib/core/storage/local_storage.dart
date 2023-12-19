@@ -1,17 +1,18 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 
 class AppLocalStorage {
   static String Image_Key = 'IMAGE';
   static String Name_Key = 'NAME';
+  static String IS_UPLOAD = 'IS_UPLOAD';
   // set
-  static cacheData(String key, String value) async {
-    var pref = await SharedPreferences.getInstance();
-    pref.setString(key, value);
+  static cacheData(String key, dynamic value) async {
+    var box = Hive.box('user');
+    box.put(key, value);
   }
 
   //get
-  static Future<String> getCachedData(String key) async {
-    var pref = await SharedPreferences.getInstance();
-    return pref.getString(key) ?? '';
+  static Future<dynamic> getCachedData(String key) async {
+    var box = Hive.box('user');
+    return box.get(key);
   }
 }

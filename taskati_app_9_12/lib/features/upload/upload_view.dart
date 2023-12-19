@@ -28,6 +28,7 @@ class _UploadViewState extends State<UploadView> {
           TextButton(
               onPressed: () {
                 if (imagePath != null && name.isNotEmpty) {
+                  AppLocalStorage.cacheData(AppLocalStorage.IS_UPLOAD, true);
                   AppLocalStorage.cacheData(
                       AppLocalStorage.Image_Key, imagePath!);
                   AppLocalStorage.cacheData(AppLocalStorage.Name_Key, name);

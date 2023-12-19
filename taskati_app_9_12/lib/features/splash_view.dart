@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:taskati_app_9_12/core/storage/local_storage.dart';
 import 'package:taskati_app_9_12/core/utils/app_colors.dart';
 import 'package:taskati_app_9_12/core/utils/styles.dart';
 import 'package:taskati_app_9_12/features/home/home_view.dart';
+import 'package:taskati_app_9_12/features/upload/upload_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -13,15 +15,19 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  bool? isUpload;
   @override
   void initState() {
     super.initState();
 
+    AppLocalStorage.getCachedData(AppLocalStorage.IS_UPLOAD).then((value) {
+      isUpload = value ?? false;
+    });
     // delay by 4 sec and navigate to upload
     Future.delayed(const Duration(seconds: 4), () {
       // navigation
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeView(),
+        builder: (context) => isUpload! ? const HomeView() : const UploadView(),
       ));
     });
   }

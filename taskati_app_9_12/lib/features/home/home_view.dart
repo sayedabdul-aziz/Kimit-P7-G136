@@ -1,13 +1,16 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:taskati_app_9_12/core/functions/functions.dart';
+import 'package:taskati_app_9_12/core/storage/task_model.dart';
 import 'package:taskati_app_9_12/core/utils/app_colors.dart';
 import 'package:taskati_app_9_12/core/utils/styles.dart';
 import 'package:taskati_app_9_12/core/widgets/custom_button.dart';
 import 'package:taskati_app_9_12/features/create-task/add_task_view.dart';
 import 'package:taskati_app_9_12/features/home/widgets/home_header.dart';
+import 'package:taskati_app_9_12/features/home/widgets/task_card_item.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -17,6 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  String _selectedDate = DateFormat.yMd().format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,70 +67,111 @@ class _HomeViewState extends State<HomeView> {
                 onDateChange: (date) {
                   // New date selected
                   setState(() {
-                    // _selectedValue = date;
+                    _selectedDate = DateFormat.yMd().format(date);
                   });
                 },
               ),
               const Gap(15),
               Expanded(
-                  child: ListView.separated(
+                  child: ValueListenableBuilder<Box<Task>>(
+                valueListenable: Hive.box<Task>('task').listenable(),
+                builder: (context, Box<Task> value, child) {
+                  List<Task> tasks = [];
+
+                  for (var element in value.values) {
+                    if (_selectedDate == element.date) {
+                      tasks.add(element);
+                    }
+                  }
+                  if (tasks.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/empty.png'),
+                          const Gap(20),
+                          Text(
+                            'No Tasks, Create your task now !!',
+                            style: getTitleStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return ListView.separated(
                       itemBuilder: (context, index) {
-                        return Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: AppColors.primaryColor),
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        //
+                        Task item = tasks[index];
+                        //
+                        return Dismissible(
+                            key: UniqueKey(),
+                            secondaryBackground: Container(
+                              padding: const EdgeInsets.only(right: 20),
+                              decoration: BoxDecoration(
+                                  color: AppColors.redColor,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  Icon(
+                                    Icons.delete,
+                                    color: AppColors.whiteColor,
+                                  ),
+                                  const Gap(10),
                                   Text(
-                                    'Flutter Task - 1',
-                                    style: getTitleStyle(
-                                        color: AppColors.whiteColor,
-                                        fontSize: 18),
+                                    'Delete Task',
+                                    style: getSmallStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.whiteColor),
                                   ),
-                                  const Gap(10),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.watch_later_outlined,
-                                        color: AppColors.whiteColor,
-                                      ),
-                                      const Gap(10),
-                                      Text('02:25 AM - 03:28 PM',
-                                          style: getSmallStyle(
-                                              color: AppColors.whiteColor))
-                                    ],
-                                  ),
-                                  const Gap(10),
-                                  Text('Flutter Task - 1',
-                                      style: getBodyStyle(
-                                          color: AppColors.whiteColor)),
                                 ],
                               ),
-                              const Spacer(),
-                              Container(
-                                width: .5,
-                                height: 60,
-                                color: AppColors.whiteColor.withOpacity(.5),
-                              ),
-                              const Gap(10),
-                              RotatedBox(
-                                  quarterTurns: 3,
-                                  child: Text(
-                                    'TODO',
-                                    style: getTitleStyle(
-                                        fontSize: 14,
+                            ),
+                            background: Container(
+                              padding: const EdgeInsets.only(left: 20),
+                              decoration: BoxDecoration(
+                                  color: AppColors.greenColor,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.done,
+                                    color: AppColors.whiteColor,
+                                  ),
+                                  const Gap(10),
+                                  Text(
+                                    'Complete Task',
+                                    style: getSmallStyle(
+                                        fontWeight: FontWeight.bold,
                                         color: AppColors.whiteColor),
-                                  ))
-                            ],
-                          ),
-                        );
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onDismissed: (direction) {
+                              if (direction == DismissDirection.startToEnd) {
+                                value.put(
+                                    item.id,
+                                    Task(
+                                        id: item.id,
+                                        title: item.title,
+                                        note: item.note,
+                                        date: item.date,
+                                        startTime: item.startTime,
+                                        endTime: item.endTime,
+                                        color: item.color,
+                                        isComplete: true));
+                              } else {
+                                value.delete(item.id);
+                              }
+                            },
+                            child: TaskCardItem(model: item));
                       },
                       separatorBuilder: (context, index) => const Gap(10),
-                      itemCount: 2))
+                      itemCount: tasks.length);
+                },
+              ))
             ],
           ),
         ),

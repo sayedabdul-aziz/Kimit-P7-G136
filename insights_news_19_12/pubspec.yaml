@@ -1,0 +1,25 @@
+name: insights_news_19_12
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.2.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  gap: ^3.0.1
+  google_fonts: ^6.1.0
+  image_picker: ^1.0.5
+  shared_preferences: ^2.2.2
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
