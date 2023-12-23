@@ -8,6 +8,7 @@ import 'package:insights_news_19_12/core/storage/local_storage.dart';
 import 'package:insights_news_19_12/core/utils/app_colors.dart';
 import 'package:insights_news_19_12/core/utils/styles.dart';
 import 'package:insights_news_19_12/core/widgets/custom_button.dart';
+import 'package:insights_news_19_12/features/home/nav_bar.dart';
 
 String? imagePath;
 String name = '';
@@ -32,7 +33,7 @@ class _UploadViewState extends State<UploadView> {
                   AppLocalStorage.cacheData(
                       AppLocalStorage.Image_Key, imagePath!);
                   AppLocalStorage.cacheData(AppLocalStorage.Name_Key, name);
-                  // pushWithReplacment(context, const HomeView());
+                  pushWithReplacment(context, const HomeView());
                 } else if (imagePath != null && name.isEmpty) {
                   showErrorWidget(context, 'Please Enter Your Name');
                 } else if (imagePath == null && name.isNotEmpty) {
@@ -42,7 +43,10 @@ class _UploadViewState extends State<UploadView> {
                       context, 'Please Enter Your Name and Your Image');
                 }
               },
-              child: const Text('Done'))
+              child: Text(
+                'Done',
+                style: getBodyStyle(color: AppColors.lemonadaColor),
+              ))
         ],
       ),
       body: Center(

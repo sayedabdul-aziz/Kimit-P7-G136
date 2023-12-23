@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:insights_news_19_12/core/storage/local_storage.dart';
 import 'package:insights_news_19_12/core/utils/app_colors.dart';
 import 'package:insights_news_19_12/core/utils/styles.dart';
-import 'package:insights_news_19_12/features/home/home_view.dart';
+import 'package:insights_news_19_12/features/home/nav_bar.dart';
 import 'package:insights_news_19_12/features/upload/upload_view.dart';
 
 class SplashView extends StatefulWidget {
@@ -20,7 +20,11 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
 
     AppLocalStorage.getCachedData(AppLocalStorage.IS_UPLOAD).then((value) {
-      isUpload = value ?? false;
+      setState(() {
+        isUpload = value ?? false;
+      });
+      print(value);
+      print(isUpload);
     });
     // delay by 4 sec and navigate to upload
     Future.delayed(const Duration(seconds: 4), () {

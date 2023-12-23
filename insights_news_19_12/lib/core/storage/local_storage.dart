@@ -19,6 +19,6 @@ class AppLocalStorage {
   //get
   static Future<dynamic> getCachedData(String key) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.get(key);
+    return pref.get(key);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insights_news_19_12/core/utils/app_colors.dart';
+import 'package:insights_news_19_12/core/utils/styles.dart';
 import 'package:insights_news_19_12/features/splash_view.dart';
 
 void main() {
@@ -16,9 +17,15 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: AppColors.scaffoldBg,
           appBarTheme: AppBarTheme(
-              backgroundColor: AppColors.scaffoldBg, elevation: 0.0),
+              centerTitle: true,
+              titleTextStyle: getBodyStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.lemonadaColor),
+              backgroundColor: AppColors.scaffoldBg,
+              elevation: 0.0),
           inputDecorationTheme: InputDecorationTheme(
-            hintStyle: TextStyle(color: AppColors.containerBg),
+            hintStyle: const TextStyle(color: Colors.grey),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: AppColors.lemonadaColor)),
