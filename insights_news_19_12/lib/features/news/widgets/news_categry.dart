@@ -39,7 +39,7 @@ class NewsCategoryWidget extends StatelessWidget {
                     text: "Sports",
                   ),
                   Tab(
-                    text: "Busniess",
+                    text: "Business",
                   ),
                 ],
               ),
@@ -47,10 +47,10 @@ class NewsCategoryWidget extends StatelessWidget {
               const Expanded(
                 child: TabBarView(
                   children: [
-                    NewsListBuilder(),
-                    NewsListBuilder(),
-                    NewsListBuilder(),
-                    NewsListBuilder(),
+                    NewsListBuilder('Science'),
+                    NewsListBuilder('Entertainment'),
+                    NewsListBuilder('Sports'),
+                    NewsListBuilder('Business'),
                   ],
                 ),
               ),
