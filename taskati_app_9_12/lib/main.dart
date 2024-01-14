@@ -68,6 +68,8 @@ class MainApp extends StatelessWidget {
                   borderSide: BorderSide(color: AppColors.redColor),
                   borderRadius: const BorderRadius.all(Radius.circular(15))),
             )),
+        
+        
         debugShowCheckedModeBanner: false,
         home: const SplashView());
   }
