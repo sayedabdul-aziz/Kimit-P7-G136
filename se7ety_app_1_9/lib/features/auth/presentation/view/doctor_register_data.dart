@@ -13,7 +13,7 @@ import 'package:se7ety_app_1_9/core/widgets/custom_dialogs.dart';
 import 'package:se7ety_app_1_9/features/auth/data/specialization_list.dart';
 import 'package:se7ety_app_1_9/features/auth/presentation/view-model/auth_cubit.dart';
 import 'package:se7ety_app_1_9/features/auth/presentation/view-model/auth_states.dart';
-import 'package:se7ety_app_1_9/features/patient/home/nav_bar.dart';
+import 'package:se7ety_app_1_9/features/patient/home/presentation/nav_bar.dart';
 
 class DoctorUploadData extends StatefulWidget {
   const DoctorUploadData({super.key});

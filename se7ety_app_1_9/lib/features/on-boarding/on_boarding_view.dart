@@ -51,79 +51,88 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-              child: PageView.builder(
-            controller: pageController,
-            itemCount: pages.length,
-            onPageChanged: (value) {
-              setState(() {
-                curruntPage = value;
-              });
-            },
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Image.asset(
-                    pages[index].image,
-                    width: 300,
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Text(
-                    pages[index].title,
-                    style: getTitleStyle(),
-                  ),
-                  const Gap(20),
-                  Text(
-                    pages[index].desc,
-                    style: getbodyStyle(),
-                  ),
-                  const Spacer(
-                    flex: 4,
-                  ),
-                ],
-              );
-            },
-          )),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              height: 50,
-              child: Row(
-                children: [
-                  SmoothPageIndicator(
-                      effect: WormEffect(
-                          activeDotColor: AppColors.color1,
-                          dotHeight: 12,
-                          dotWidth: 20),
-                      controller: pageController,
-                      count: 3),
-                  const Spacer(),
-                  if (curruntPage == pages.length - 1)
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.color1,
-                            foregroundColor: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                            builder: (context) => const WelcomeView(),
-                          ));
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Expanded(
+                child: PageView.builder(
+              controller: pageController,
+              itemCount: pages.length,
+              onPageChanged: (value) {
+                setState(() {
+                  curruntPage = value;
+                });
+              },
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Image.asset(
+                      pages[index].image,
+                      width: 300,
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Text(
+                      pages[index].title,
+                      style: getTitleStyle(),
+                    ),
+                    const Gap(20),
+                    Text(
+                      pages[index].desc,
+                      textAlign: TextAlign.center,
+                      style: getbodyStyle(),
+                    ),
+                    const Spacer(
+                      flex: 4,
+                    ),
+                  ],
+                );
+              },
+            )),
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: SizedBox(
+                height: 50,
+                child: Row(
+                  children: [
+                    SmoothPageIndicator(
+                        onDotClicked: (index) {
+                          pageController.animateToPage(index,
+                              duration: const Duration(milliseconds: 600),
+                              curve: Curves.easeInOut);
                         },
-                        child: const Text('هيا بنا'))
-                ],
+                        effect: WormEffect(
+                            activeDotColor: AppColors.color1,
+                            dotHeight: 12,
+                            dotWidth: 20),
+                        controller: pageController,
+                        count: 3),
+                    const Spacer(),
+                    if (curruntPage == pages.length - 1)
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.color1,
+                              foregroundColor: AppColors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => const WelcomeView(),
+                            ));
+                          },
+                          child: const Text('هيا بنا'))
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

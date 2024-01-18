@@ -9,7 +9,7 @@ import 'package:se7ety_app_1_9/features/auth/presentation/view-model/auth_cubit.
 import 'package:se7ety_app_1_9/features/auth/presentation/view-model/auth_states.dart';
 import 'package:se7ety_app_1_9/features/auth/presentation/view/doctor_register_data.dart';
 import 'package:se7ety_app_1_9/features/auth/presentation/view/signin_view.dart';
-import 'package:se7ety_app_1_9/features/patient/home/nav_bar.dart';
+import 'package:se7ety_app_1_9/features/patient/home/presentation/nav_bar.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key, required this.index});
