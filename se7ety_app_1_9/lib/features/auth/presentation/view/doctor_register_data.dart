@@ -31,9 +31,8 @@ class _DoctorUploadDataState extends State<DoctorUploadData> {
   String _specialization = specialization[0];
 
   late String _startTime =
-      DateFormat('hh:mm a').format(DateTime(2023, 9, 7, 10, 00));
-  late String _endTime =
-      DateFormat('hh:mm a').format(DateTime(2023, 9, 7, 22, 00));
+      DateFormat('hh').format(DateTime(2023, 9, 7, 10, 00));
+  late String _endTime = DateFormat('hh').format(DateTime(2023, 9, 7, 22, 00));
 
   @override
   void initState() {
@@ -423,7 +422,8 @@ class _DoctorUploadDataState extends State<DoctorUploadData> {
 
     if (datePicked != null) {
       setState(() {
-        _startTime = datePicked.format(context);
+        _startTime = datePicked.hour.toString();
+        print(_startTime);
       });
     }
   }
@@ -461,7 +461,7 @@ class _DoctorUploadDataState extends State<DoctorUploadData> {
 
     if (timePicker != null) {
       setState(() {
-        _endTime = timePicker.format(context);
+        _endTime = timePicker.hour.toString();
       });
     }
   }

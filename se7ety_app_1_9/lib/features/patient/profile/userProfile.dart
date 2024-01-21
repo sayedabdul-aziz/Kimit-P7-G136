@@ -246,7 +246,7 @@ class _PatientProfileState extends State<PatientProfile> {
                           height: 20,
                         ),
                         Text(
-                          "جوزاتي",
+                          "حجوزاتي",
                           style: getbodyStyle(fontWeight: FontWeight.w600),
                         ),
                         const AppointmentHistoryList()
